@@ -1,0 +1,15 @@
+PODS:
+  - LNRSimpleNotifications (0.6.1)
+  - SVProgressHUD (2.1.2)
+
+DEPENDENCIES:
+  - LNRSimpleNotifications
+  - SVProgressHUD
+
+SPEC CHECKSUMS:
+  LNRSimpleNotifications: 4602ddc63444b42b1653681730678af1585c5fa3
+  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
+
+PODFILE CHECKSUM: d4ac9579ab4cd07a76b73f847f6cd16fad03e734
+
+COCOAPODS: 1.1.1
