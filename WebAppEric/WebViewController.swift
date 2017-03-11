@@ -24,6 +24,7 @@ class WebViewController: UIViewController {
     
     
     var notificationManager:LNRNotificationManager!
+    var firstLoad = true
     
     
     //MARK:- IBOutlets
@@ -63,15 +64,6 @@ class WebViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        //Animate WebView
-        UIView.animate(withDuration: 1, delay: 1, options: .curveEaseInOut, animations: { 
-            self.webView.alpha = 1
-        }, completion: nil)
-    }
-    
     
     //MARK:- Custom Functions
     
@@ -101,6 +93,15 @@ extension WebViewController: UIWebViewDelegate {
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
         SVProgressHUD.dismiss()
+        
+        if self.firstLoad {
+            self.firstLoad = false
+            
+            //Animate WebView
+            UIView.animate(withDuration: 1, delay: 0.1, options: .curveEaseInOut, animations: {
+                self.webView.alpha = 1
+            }, completion: nil)
+        }
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
