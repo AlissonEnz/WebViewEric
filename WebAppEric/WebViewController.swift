@@ -16,8 +16,7 @@ class WebViewController: UIViewController {
     //MARK:- Constants
     
     
-//    let kWEBPAGESTRING = "http://PLACE_YOUR_URL_HERE"
-    let kWEBPAGESTRING = "http://google.com"
+    let kWEBPAGESTRING = "https://www.studtime.com/app/index.php"
 
     
     //MARK:- Variables
@@ -86,15 +85,14 @@ class WebViewController: UIViewController {
 extension WebViewController: UIWebViewDelegate {
     
     func webViewDidStartLoad(_ webView: UIWebView) {
-        if webView.isLoading {
+        if self.firstLoad {
             SVProgressHUD.show()
         }
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        SVProgressHUD.dismiss()
-        
         if self.firstLoad {
+            SVProgressHUD.dismiss()
             self.firstLoad = false
             
             //Animate WebView
