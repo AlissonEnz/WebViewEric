@@ -17,7 +17,8 @@ class WebViewController: UIViewController {
     //MARK:- Constants
     
     
-    fileprivate let kWEBPAGESTRING = "https://www.studtime.com/app/index.php"
+    //fileprivate let kWEBPAGESTRING = "https://www.studtime.com/app/index.php"
+    fileprivate let kWEBPAGESTRING = "https://google.com"
     
     
     //MARK:- Variables
@@ -94,6 +95,15 @@ class WebViewController: UIViewController {
 
 
 extension WebViewController: WKNavigationDelegate {
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print(error)
+        SVProgressHUD.dismiss()
+        
+        if error._code == NSURLErrorNotConnectedToInternet || error._code == NSURLErrorNetworkConnectionLost {
+            self.showErrorMessage(title: "Error", message: error.localizedDescription)
+        }
+    }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         print(error)
