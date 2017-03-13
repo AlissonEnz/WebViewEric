@@ -17,8 +17,7 @@ class WebViewController: UIViewController {
     //MARK:- Constants
     
     
-    //fileprivate let kWEBPAGESTRING = "https://www.studtime.com/app/index.php"
-    fileprivate let kWEBPAGESTRING = "https://google.com"
+    fileprivate let kWEBPAGESTRING = "https://www.studtime.com/app/index.php"
     
     
     //MARK:- Variables
@@ -54,10 +53,10 @@ class WebViewController: UIViewController {
         //Cofigure Alert
         self.notificationManager = LNRNotificationManager()
         self.notificationManager.notificationsPosition = LNRNotificationPosition.top
-        self.notificationManager.notificationsBackgroundColor = .red
-        self.notificationManager.notificationsTitleTextColor = .white
-        self.notificationManager.notificationsBodyTextColor = .white
-        self.notificationManager.notificationsSeperatorColor = .clear
+        self.notificationManager.notificationsBackgroundColor = .white
+        self.notificationManager.notificationsTitleTextColor = .black
+        self.notificationManager.notificationsBodyTextColor = .black
+        self.notificationManager.notificationsSeperatorColor = .gray
         
         // Set delegate and alpha
         self.webView.navigationDelegate = self
@@ -84,8 +83,10 @@ class WebViewController: UIViewController {
     }
     
     func showErrorMessage(title:String, message:String) {
-        LNRNotificationManager().showNotification(notification: LNRNotification(title: title, body: "\(message)\nTap to reload.", duration: LNRNotificationDuration.endless.rawValue, onTap: { () in
-            self.webView.reload()
+        self.notificationManager.showNotification(notification: LNRNotification(title: title, body: "\(message)\nTap to reload.", duration: LNRNotificationDuration.endless.rawValue, onTap: { () in
+            _ = self.notificationManager.dismissActiveNotification(completion: { () in
+              self.webView.reload()
+            })
         }, onTimeout: nil))
     }
 }
