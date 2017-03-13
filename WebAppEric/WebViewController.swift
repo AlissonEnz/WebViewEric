@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 import SVProgressHUD
 import LNRSimpleNotifications
 
@@ -16,20 +17,21 @@ class WebViewController: UIViewController {
     //MARK:- Constants
     
     
-    let kWEBPAGESTRING = "https://www.studtime.com/app/index.php"
-
+    fileprivate let kWEBPAGESTRING = "https://www.studtime.com/app/index.php"
+    
     
     //MARK:- Variables
     
     
-    var notificationManager:LNRNotificationManager!
-    var firstLoad = true
+    fileprivate var notificationManager:LNRNotificationManager!
+    fileprivate var firstLoad = true
+    fileprivate var webView:WKWebView!
     
     
-    //MARK:- IBOutlets
+    //IBOutlets
     
     
-    @IBOutlet weak var webView: UIWebView!
+    @IBOutlet weak var viewToAddWebView: UIView!
     
     
     //MARK:- ViewController Lifecicle
@@ -37,6 +39,16 @@ class WebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Create WebView
+        let configuration = WKWebViewConfiguration()
+        self.webView = WKWebView(frame: .zero, configuration: configuration)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        self.viewToAddWebView.addSubview(webView)
+        [self.webView.topAnchor.constraint(equalTo: self.viewToAddWebView.topAnchor),
+         self.webView.bottomAnchor.constraint(equalTo: self.viewToAddWebView.bottomAnchor),
+         self.webView.leftAnchor.constraint(equalTo: self.viewToAddWebView.leftAnchor),
+         self.webView.rightAnchor.constraint(equalTo: self.viewToAddWebView.rightAnchor)].forEach  { $0.isActive = true }
 
         //Cofigure Alert
         self.notificationManager = LNRNotificationManager()
@@ -47,8 +59,7 @@ class WebViewController: UIViewController {
         self.notificationManager.notificationsSeperatorColor = .clear
         
         // Set delegate and alpha
-        self.webView.delegate = self
-        self.webView.scrollView.delegate = self
+        self.webView.navigationDelegate = self
         self.webView.alpha = 0
         
         //Set backgound color
@@ -57,7 +68,7 @@ class WebViewController: UIViewController {
         // Create page request
         if let pageURL = URL(string: self.kWEBPAGESTRING) {
             let pageRequest = URLRequest(url: pageURL)
-            self.webView.loadRequest(pageRequest)
+            self.webView.load(pageRequest)
         } else {
             self.showErrorMessage(title: "Error", message: "This url could not be created.")
         }
@@ -82,17 +93,21 @@ class WebViewController: UIViewController {
 //MARK:- UIWebViewDelegate
 
 
-extension WebViewController: UIWebViewDelegate {
+extension WebViewController: WKNavigationDelegate {
     
-    func webViewDidStartLoad(_ webView: UIWebView) {
-        if self.firstLoad {
-            SVProgressHUD.show()
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        print(error)
+        SVProgressHUD.dismiss()
+        
+        if error._code == NSURLErrorNotConnectedToInternet || error._code == NSURLErrorNetworkConnectionLost {
+            self.showErrorMessage(title: "Error", message: error.localizedDescription)
         }
     }
     
-    func webViewDidFinishLoad(_ webView: UIWebView) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        SVProgressHUD.dismiss()
+        
         if self.firstLoad {
-            SVProgressHUD.dismiss()
             self.firstLoad = false
             
             //Animate WebView
@@ -102,25 +117,7 @@ extension WebViewController: UIWebViewDelegate {
         }
     }
     
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        print(error)
-        SVProgressHUD.dismiss()
-        
-        if error._code == NSURLErrorNotConnectedToInternet || error._code == NSURLErrorNetworkConnectionLost {
-            self.showErrorMessage(title: "Error", message: error.localizedDescription)
-        }
-    }
-}
-
-
-//MARK:- UIScrollViewDelegate
-
-
-extension WebViewController: UIScrollViewDelegate {
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if scrollView.contentOffset.y < -40 {
-            self.webView.reload()
-        }
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        SVProgressHUD.show()
     }
 }

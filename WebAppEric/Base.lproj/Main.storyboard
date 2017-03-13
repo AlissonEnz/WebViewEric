@@ -21,21 +21,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X9B-Bf-eTP">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TG9-b4-mUi">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </webView>
+                                <color key="backgroundColor" red="0.058823529411764705" green="0.058823529411764705" blue="0.058823529411764705" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.058823529411764705" green="0.058823529411764705" blue="0.058823529411764705" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="X9B-Bf-eTP" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="8K8-lo-TgI"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="X9B-Bf-eTP" secondAttribute="bottom" id="9RD-Zx-buu"/>
-                            <constraint firstAttribute="trailing" secondItem="X9B-Bf-eTP" secondAttribute="trailing" id="D9n-j2-FYe"/>
-                            <constraint firstItem="X9B-Bf-eTP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ykg-08-3WE"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="TG9-b4-mUi" secondAttribute="bottom" id="HG6-HE-9Z9"/>
+                            <constraint firstAttribute="trailing" secondItem="TG9-b4-mUi" secondAttribute="trailing" id="KE8-Kp-anb"/>
+                            <constraint firstItem="TG9-b4-mUi" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Oqb-dM-7Ow"/>
+                            <constraint firstItem="TG9-b4-mUi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gb7-uy-hYb"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="webView" destination="X9B-Bf-eTP" id="TNf-Vx-HEd"/>
+                        <outlet property="viewToAddWebView" destination="TG9-b4-mUi" id="J1H-05-0Vz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
